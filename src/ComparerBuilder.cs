@@ -49,8 +49,8 @@ namespace Universe
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
-            if (expression == null)
-                throw new ArgumentNullException("expression");
+            if (comparer == null)
+                throw new ArgumentNullException("comparer");
 
             Func<object, object, int> fieldComparer = delegate(object x, object y)
             {
