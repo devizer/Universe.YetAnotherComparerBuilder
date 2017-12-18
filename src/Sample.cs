@@ -25,7 +25,7 @@ namespace Universe
                 .Compare(x => x.Age.HasValue && highlightAge.Equals(x.Age.Value))
                 .CompareString(x => x.Name, ignoreCase)
                 .CompareString(x => x.Title, ignoreCase)
-                .Compare(x => x.Age, FieldOrder.Backward)
+                .Compare(x => x.Age, OrderFlavour.Backward)
                 .GetComparer();
 
             Enumerable.Empty<Person>().ToList().Sort(comparer);
