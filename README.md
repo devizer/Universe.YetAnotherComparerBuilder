@@ -18,31 +18,31 @@ public enum FieldOrder : byte
 # Sample
 This sample place all Doctors aged 42 on the early. after that all another `Person` follows:
 ```csharp
-public class Demo
-{
-    class Person
+    public class Demo
     {
-        public string Title;
-        public string Name;
-        public int? Age;
+        class Person
+        {
+            public string Title;
+            public string Name;
+            public int? Age;
+        }
+
+        public static void Test()
+        {
+            string highlighTitle = "Dr.";
+            int highlightAge = 42;
+
+            StringComparer ignoreCase = StringComparer.InvariantCultureIgnoreCase;
+            IComparer<Person> comparer = new ComparerBuilder<Person>()
+                .Compare(x => ignoreCase.Equals(highlighTitle, x.Title))
+                .Compare(x => x.Age.HasValue && highlightAge.Equals(x.Age.Value))
+                .CompareString(x => x.Name, ignoreCase)
+                .CompareString(x => x.Title, ignoreCase)
+                .Compare(x => x.Age, FieldOrder.Backward)
+                .GetComparer();
+
+            Enumerable.Empty<Person>().ToList().Sort(comparer);
+            Enumerable.Empty<Person>().OrderBy(x => x, comparer);
+        }
     }
-
-    public static void Test()
-    {
-        string highlighTitle = "Dr.";
-        int highlightAge = 42;
-
-        StringComparer c = StringComparer.InvariantCultureIgnoreCase;
-        IComparer<Person> comparer = new ComparerBuilder<Person>()
-            .Add(x => c.Equals(highlighTitle, x.Title) ? 0 : 1)
-            .Add(x => x.Age.HasValue && highlightAge.Equals(x.Age.Value) ? 0 : 1)
-            .AddString(x => x.Name, c)
-            .AddString(x => x.Title, c)
-            .Add(x => x.Age, FieldOrder.Backward)
-            .GetComparer();
-
-        Enumerable.Empty<Person>().ToList().Sort(comparer);
-        Enumerable.Empty<Person>().OrderBy(x => x, comparer);
-    }
-}
 ```
