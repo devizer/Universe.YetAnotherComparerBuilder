@@ -62,7 +62,7 @@ namespace Universe
                 // 2. The compiler replaces null comparisons with a call to HasValue for nullable types
                 TField xField = expression((TItem)x);
                 TField yField = expression((TItem)y);
-                if (ReferenceEquals(xField, yField)) return 0;
+                if (TypeInfo<TField>.IsReferenceType && ReferenceEquals(xField, yField)) return 0;
                 if (xField == null && yField == null) return 0;
                 if (xField == null) return areNullsEarly ? -1 : 1;
                 if (yField == null) return areNullsEarly ? 1 : -1;
@@ -78,10 +78,21 @@ namespace Universe
             return this;
         }
 
+        private class TypeInfo<T>
+        {
+            private static Lazy<bool> _IsReferenceType = new Lazy<bool>(() =>
+            {
+                return !typeof(ValueType).IsAssignableFrom(typeof(T));
+            });
+
+            public static bool IsReferenceType { get { return _IsReferenceType.Value; }}
+        }
+
         private sealed class ItemComparer<T> : IComparer<T>
         {
             private readonly List<FieldMeta> _Fields;
             private readonly OrderFlavour _OrderFlavour;
+            private readonly bool _IsReferenceType;
 
             public ItemComparer(List<FieldMeta> fields, OrderFlavour orderFlavour)
             {
@@ -95,7 +106,7 @@ namespace Universe
                 bool isBackward = (_OrderFlavour & OrderFlavour.Backward) != 0;
 
                 if (x == null && y == null) return 0;
-                if (ReferenceEquals(x, y)) return 0;
+                if (TypeInfo<T>.IsReferenceType && ReferenceEquals(x, y)) return 0;
                 if (x == null) return areNullsEarly ? -1 : 1;
                 if (y == null) return areNullsEarly ? 1 : -1;
 
