@@ -23,12 +23,12 @@ namespace Universe
 
         private readonly List<FieldMeta> Columns = new List<FieldMeta>();
 
-        public ComparerBuilder<TItem> Add<TField>(Func<TItem, TField> expression, FieldOrder flavour = FieldOrder.Default)
+        public ComparerBuilder<TItem> Compare<TField>(Func<TItem, TField> expression, FieldOrder flavour = FieldOrder.Default)
         {
-            return Add(expression, Comparer<TField>.Default, flavour);
+            return Compare(expression, Comparer<TField>.Default, flavour);
         }
 
-        private ComparerBuilder<TItem> Add<TField>(Func<TItem, TField> expression, IComparer<TField> comparer, FieldOrder flavour = FieldOrder.Default)
+        private ComparerBuilder<TItem> Compare<TField>(Func<TItem, TField> expression, IComparer<TField> comparer, FieldOrder flavour = FieldOrder.Default)
         {
 
             Func<object, object, int> fieldComparer = delegate(object x, object y)
@@ -56,9 +56,9 @@ namespace Universe
             return this;
         }
 
-        public ComparerBuilder<TItem> AddString(Func<TItem, string> expression, StringComparer comparer, FieldOrder flavour = FieldOrder.Default)
+        public ComparerBuilder<TItem> CompareString(Func<TItem, string> expression, StringComparer comparer, FieldOrder flavour = FieldOrder.Default)
         {
-            return Add(expression, comparer, flavour);
+            return Compare(expression, comparer, flavour);
         }
 
         public IComparer<TItem> GetComparer(FieldOrder flavour = FieldOrder.Default)
