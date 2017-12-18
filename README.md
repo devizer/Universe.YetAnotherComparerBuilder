@@ -19,7 +19,7 @@ public enum OrderFlavour
 ```
 
 # Sample
-This sample place all Doctors aged 42 on the early. after that all another `Person` follows:
+In this sample all Doctors aged 42 will ahead of another persons.
 ```csharp
 public class Demo
 {
