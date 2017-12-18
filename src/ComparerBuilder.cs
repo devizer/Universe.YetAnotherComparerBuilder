@@ -21,18 +21,36 @@ namespace Universe
             public Func<object, object, int> Comparision;
         }
 
-        private readonly List<FieldMeta> Columns = new List<FieldMeta>();
+        private readonly List<FieldMeta> _Comparers = new List<FieldMeta>();
 
         public ComparerBuilder<TItem> Compare<TField>(Func<TItem, TField> expression, OrderFlavour flavour = OrderFlavour.Default)
+        {
+            return Compare(expression, Comparer<TField>.Default, flavour);
+        }
+
+        public ComparerBuilder<TItem> CompareString(Func<TItem, string> expression, StringComparer comparer, OrderFlavour flavour = OrderFlavour.Default)
+        {
+            return Compare(expression, comparer, flavour);
+        }
+
+        public IComparer<TItem> GetComparer(OrderFlavour flavour = OrderFlavour.Default)
+        {
+            return new ItemComparer<TItem>(_Comparers, flavour);
+        }
+
+        public Comparison<TItem> GetComparison(OrderFlavour flavour = OrderFlavour.Default)
+        {
+            // ThreadSafe
+            return new ItemComparer<TItem>(_Comparers, OrderFlavour.Default).Compare;
+        }
+
+        public ComparerBuilder<TItem> Compare<TField>(Func<TItem, TField> expression, IComparer<TField> comparer, OrderFlavour flavour = OrderFlavour.Default)
         {
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
-            return Compare(expression, Comparer<TField>.Default, flavour);
-        }
-
-        private ComparerBuilder<TItem> Compare<TField>(Func<TItem, TField> expression, IComparer<TField> comparer, OrderFlavour flavour = OrderFlavour.Default)
-        {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
 
             Func<object, object, int> fieldComparer = delegate(object x, object y)
             {
@@ -52,7 +70,7 @@ namespace Universe
                 return isBackward ? -ret : ret;
             };
 
-            Columns.Add(new FieldMeta()
+            _Comparers.Add(new FieldMeta()
             {
                 Comparision = fieldComparer,
             });
@@ -60,50 +78,28 @@ namespace Universe
             return this;
         }
 
-        public ComparerBuilder<TItem> CompareString(Func<TItem, string> expression, StringComparer comparer, OrderFlavour flavour = OrderFlavour.Default)
-        {
-            if (expression == null)
-                throw new ArgumentNullException("expression");
-
-            if (comparer == null)
-                throw new ArgumentNullException("comparer");
-
-            return Compare(expression, comparer, flavour);
-        }
-
-        public IComparer<TItem> GetComparer(OrderFlavour flavour = OrderFlavour.Default)
-        {
-            return new ItemComparer<TItem>(Columns, flavour);
-        }
-
-        // ThreadSafe
-        public Comparison<TItem> Comparison(OrderFlavour flavour = OrderFlavour.Default)
-        {
-            return new ItemComparer<TItem>(Columns, OrderFlavour.Default).Compare;
-        }
-
         private sealed class ItemComparer<T> : IComparer<T>
         {
-            private readonly List<FieldMeta> Fields;
-            private readonly OrderFlavour _orderFlavour;
+            private readonly List<FieldMeta> _Fields;
+            private readonly OrderFlavour _OrderFlavour;
 
             public ItemComparer(List<FieldMeta> fields, OrderFlavour orderFlavour)
             {
-                Fields = fields;
-                _orderFlavour = orderFlavour;
+                _Fields = fields;
+                _OrderFlavour = orderFlavour;
             }
 
             public int Compare(T x, T y)
             {
-                bool areNullsEarly = (_orderFlavour & OrderFlavour.NullGoesEarly) != 0;
-                bool isBackward = (_orderFlavour & OrderFlavour.Backward) != 0;
+                bool areNullsEarly = (_OrderFlavour & OrderFlavour.NullGoesEarly) != 0;
+                bool isBackward = (_OrderFlavour & OrderFlavour.Backward) != 0;
 
                 if (x == null && y == null) return 0;
                 if (ReferenceEquals(x, y)) return 0;
                 if (x == null) return areNullsEarly ? -1 : 1;
                 if (y == null) return areNullsEarly ? 1 : -1;
 
-                foreach (var fieldMeta in Fields)
+                foreach (var fieldMeta in _Fields)
                 {
                     int ret = fieldMeta.Comparision(x, y);
                     if (ret != 0) return isBackward ? -ret : ret;
