@@ -16,12 +16,7 @@ namespace Universe
     // Emit-free, fast, strongly typed, highly-customizable yet another ComparerBuilder
     public class ComparerBuilder<TItem>
     {
-        private sealed class FieldMeta
-        {
-            public Func<object, object, int> Comparision;
-        }
-
-        private readonly List<FieldMeta> _Comparers = new List<FieldMeta>();
+        private readonly List<FieldMeta> _Comparisons = new List<FieldMeta>();
 
         public ComparerBuilder<TItem> Compare<TField>(Func<TItem, TField> expression, OrderFlavour flavour = OrderFlavour.Default)
         {
@@ -35,13 +30,13 @@ namespace Universe
 
         public IComparer<TItem> GetComparer(OrderFlavour flavour = OrderFlavour.Default)
         {
-            return new ItemComparer<TItem>(_Comparers, flavour);
+            return new ItemComparer<TItem>(_Comparisons, flavour);
         }
 
         public Comparison<TItem> GetComparison(OrderFlavour flavour = OrderFlavour.Default)
         {
             // ThreadSafe
-            return new ItemComparer<TItem>(_Comparers, OrderFlavour.Default).Compare;
+            return new ItemComparer<TItem>(_Comparisons, OrderFlavour.Default).Compare;
         }
 
         public ComparerBuilder<TItem> Compare<TField>(Func<TItem, TField> expression, IComparer<TField> comparer, OrderFlavour flavour = OrderFlavour.Default)
@@ -52,9 +47,9 @@ namespace Universe
             if (comparer == null)
                 throw new ArgumentNullException("comparer");
 
-            Func<object, object, int> fieldComparer = delegate(object x, object y)
+            Func<object, object, int> fieldComparison = delegate(object x, object y)
             {
-                var f = flavour; // stack faster then heap
+                var f = flavour; // stack is faster then heap
                 bool areNullsEarly = (f & OrderFlavour.NullGoesEarly) != 0;
                 bool isBackward = (f & OrderFlavour.Backward) != 0;
 
@@ -70,15 +65,20 @@ namespace Universe
                 return isBackward ? -ret : ret;
             };
 
-            _Comparers.Add(new FieldMeta()
+            _Comparisons.Add(new FieldMeta()
             {
-                Comparision = fieldComparer,
+                Comparison = fieldComparison,
             });
 
             return this;
         }
 
-        private class TypeInfo<T>
+        private sealed class FieldMeta
+        {
+            public Func<object, object, int> Comparison;
+        }
+
+        private sealed class TypeInfo<T>
         {
             private static Lazy<bool> _IsReferenceType = new Lazy<bool>(() =>
             {
@@ -92,7 +92,6 @@ namespace Universe
         {
             private readonly List<FieldMeta> _Fields;
             private readonly OrderFlavour _OrderFlavour;
-            private readonly bool _IsReferenceType;
 
             public ItemComparer(List<FieldMeta> fields, OrderFlavour orderFlavour)
             {
@@ -112,7 +111,7 @@ namespace Universe
 
                 foreach (var fieldMeta in _Fields)
                 {
-                    int ret = fieldMeta.Comparision(x, y);
+                    int ret = fieldMeta.Comparison(x, y);
                     if (ret != 0) return isBackward ? -ret : ret;
                 }
 
@@ -120,5 +119,4 @@ namespace Universe
             }
         }
     }
-
 }

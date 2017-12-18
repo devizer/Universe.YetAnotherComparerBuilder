@@ -22,14 +22,14 @@ namespace Universe
 
             IComparer<Person> comparer = new ComparerBuilder<Person>()
                 .Compare(x => ignoreCase.Equals(highlightTitle, x.Title))
-                .Compare(x => x.Age.HasValue && highlightAge.Equals(x.Age.Value))
+                .Compare(x => x.Age.HasValue && highlightAge == x.Age.Value)
                 .CompareString(x => x.Name, ignoreCase)
                 .CompareString(x => x.Title, ignoreCase)
-                .Compare(x => x.Age, OrderFlavour.Backward)
+                .Compare(x => x.Age, OrderFlavour.Backward | OrderFlavour.NullGoesFinally)
                 .GetComparer();
 
             Enumerable.Empty<Person>().ToList().Sort(comparer);
-            Enumerable.Empty<Person>().OrderBy(x => x, comparer);
+            Enumerable.Empty<Person>().OrderBy(x => x, comparer).ToList();
         }
     }
 }
