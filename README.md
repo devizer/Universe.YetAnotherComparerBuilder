@@ -32,20 +32,20 @@ public class Demo
 
     public static void Test()
     {
-        string highlighTitle = "Dr.";
+        StringComparer ignoreCase = StringComparer.InvariantCultureIgnoreCase;
+        string highlightTitle = "Dr.";
         int highlightAge = 42;
 
-        StringComparer ignoreCase = StringComparer.InvariantCultureIgnoreCase;
         IComparer<Person> comparer = new ComparerBuilder<Person>()
-            .Compare(x => ignoreCase.Equals(highlighTitle, x.Title))
-            .Compare(x => x.Age.HasValue && highlightAge.Equals(x.Age.Value))
+            .Compare(x => ignoreCase.Equals(highlightTitle, x.Title))
+            .Compare(x => x.Age.HasValue && highlightAge == x.Age.Value)
             .CompareString(x => x.Name, ignoreCase)
             .CompareString(x => x.Title, ignoreCase)
-            .Compare(x => x.Age, FieldOrder.Backward)
+            .Compare(x => x.Age, OrderFlavour.Backward | OrderFlavour.NullGoesFinally)
             .GetComparer();
 
         Enumerable.Empty<Person>().ToList().Sort(comparer);
-        Enumerable.Empty<Person>().OrderBy(x => x, comparer);
+        Enumerable.Empty<Person>().OrderBy(x => x, comparer).ToList();
     }
 }
 ```
