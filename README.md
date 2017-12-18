@@ -1,7 +1,8 @@
 # Universe.YetAnotherComparerBuilder
 Emit-free, fast, strongly typed, highly-customizable yet another ComparerBuilder
+<img src='images/yet-another-standard.png' width='500px' height='283px'></img>
 
-## The icing on
+## The icing on the
 Extended order direction can be applyed to both an element comparer and a field comparer:
 ```csharp
 [Flags]
