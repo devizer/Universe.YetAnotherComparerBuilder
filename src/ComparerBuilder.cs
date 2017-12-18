@@ -25,6 +25,9 @@ namespace Universe
 
         public ComparerBuilder<TItem> Compare<TField>(Func<TItem, TField> expression, FieldOrder flavour = FieldOrder.Default)
         {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
             return Compare(expression, Comparer<TField>.Default, flavour);
         }
 
@@ -59,6 +62,12 @@ namespace Universe
 
         public ComparerBuilder<TItem> CompareString(Func<TItem, string> expression, StringComparer comparer, FieldOrder flavour = FieldOrder.Default)
         {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            if (comparer == null)
+                throw new ArgumentNullException("comparer");
+
             return Compare(expression, comparer, flavour);
         }
 
