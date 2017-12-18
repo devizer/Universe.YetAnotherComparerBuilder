@@ -8,7 +8,7 @@ Emit-free, fast, strongly typed, highly-customizable yet another ComparerBuilder
 Extended order direction can be applyed to both an element comparer and a field comparer:
 ```csharp
 [Flags]
-public enum FieldOrder : byte
+public enum OrderFlavour
 {
     Forward = 0,
     Backward = 1,
