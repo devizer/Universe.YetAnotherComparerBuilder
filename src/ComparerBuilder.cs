@@ -37,7 +37,8 @@ namespace Universe
                 bool areNullsEarly = (f & FieldOrder.NullGoesEarly) != 0;
                 bool isBackward = (f & FieldOrder.Backward) != 0;
 
-                // x & y are unconditionally NOT NULL and type of them is defenitely TItem
+                // 1. x & y are unconditionally NOT NULL and type of them is defenitely TItem
+                // 2. The compiler replaces null comparisons with a call to HasValue for nullable types
                 TField xField = expression((TItem)x);
                 TField yField = expression((TItem)y);
                 if (ReferenceEquals(xField, yField)) return 0;
