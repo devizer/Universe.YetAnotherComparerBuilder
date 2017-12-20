@@ -80,12 +80,22 @@ namespace Universe
 
         private sealed class TypeInfo<T>
         {
-            private static Lazy<bool> _IsReferenceType = new Lazy<bool>(() =>
-            {
-                return !typeof(ValueType).IsAssignableFrom(typeof(T));
-            });
+            static readonly object Sync = new object();
+            private static bool? _IsReferenceType;
 
-            public static bool IsReferenceType { get { return _IsReferenceType.Value; }}
+            public static bool IsReferenceType
+            {
+                get
+                {
+                    if (!_IsReferenceType.HasValue)
+                        lock(Sync)
+                            if (!_IsReferenceType.HasValue)
+                                _IsReferenceType = !typeof(ValueType).IsAssignableFrom(typeof(T));
+
+                    return _IsReferenceType.Value;
+                }
+            }
+
         }
 
         private sealed class ItemComparer<T> : IComparer<T>
@@ -119,4 +129,8 @@ namespace Universe
             }
         }
     }
+#if CSHARP_OLD
+    public delegate TResult Func<T1, T2, TResult>(T1 arg1, T2 arg2);
+    public delegate TField Func<TItem, TField>(TItem item);
+#endif
 }
