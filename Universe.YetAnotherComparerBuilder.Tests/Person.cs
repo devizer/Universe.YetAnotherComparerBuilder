@@ -7,9 +7,9 @@ namespace Universe
 {
     public class PersonClass
     {
-        public string Title;
-        public string Name;
-        public int? Age;
+        public string Title { get; set; }
+        public string Name { get; set; }
+        public int? Age { get; set; }
 
         public PersonClass(string title, string name, int? age = null)
         {
