@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFrameworks>netcoreapp2.2;net462;</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Universe.YetAnotherComparerBuilder.Demo\Universe.YetAnotherComparerBuilder.Demo.csproj" />
+      <ProjectReference Include="..\Universe.YetAnotherComparerBuilder\Universe.YetAnotherComparerBuilder.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BenchmarkDotNet" Version="0.12.0" />
+    </ItemGroup>
+
+</Project>

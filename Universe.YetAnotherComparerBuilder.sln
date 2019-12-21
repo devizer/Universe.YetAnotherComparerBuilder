@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Universe.YetAnotherComparer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Universe.YetAnotherComparerBuilder.Tests", "Universe.YetAnotherComparerBuilder.Tests\Universe.YetAnotherComparerBuilder.Tests.csproj", "{646EBB40-55BD-4F9C-8ADD-E83E84197741}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Universe.YetAnotherComparerBuilder.Benchmark", "Universe.YetAnotherComparerBuilder.Benchmark\Universe.YetAnotherComparerBuilder.Benchmark.csproj", "{725AF24B-9EE1-4E4D-95D2-AB32EA405341}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Universe.YetAnotherComparerBuilder.Demo", "Universe.YetAnotherComparerBuilder.Demo\Universe.YetAnotherComparerBuilder.Demo.csproj", "{99994CBC-EC72-4909-A969-66CA700291EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{646EBB40-55BD-4F9C-8ADD-E83E84197741}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{646EBB40-55BD-4F9C-8ADD-E83E84197741}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{646EBB40-55BD-4F9C-8ADD-E83E84197741}.Release|Any CPU.Build.0 = Release|Any CPU
+		{725AF24B-9EE1-4E4D-95D2-AB32EA405341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{725AF24B-9EE1-4E4D-95D2-AB32EA405341}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{725AF24B-9EE1-4E4D-95D2-AB32EA405341}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{725AF24B-9EE1-4E4D-95D2-AB32EA405341}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99994CBC-EC72-4909-A969-66CA700291EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99994CBC-EC72-4909-A969-66CA700291EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99994CBC-EC72-4909-A969-66CA700291EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99994CBC-EC72-4909-A969-66CA700291EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

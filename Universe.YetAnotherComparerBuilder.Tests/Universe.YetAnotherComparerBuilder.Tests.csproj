@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFrameworks>netcoreapp2.2;</TargetFrameworks>
 
         <IsPackable>false</IsPackable>
     </PropertyGroup>
@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Universe.YetAnotherComparerBuilder.Demo\Universe.YetAnotherComparerBuilder.Demo.csproj" />
       <ProjectReference Include="..\Universe.YetAnotherComparerBuilder\Universe.YetAnotherComparerBuilder.csproj" />
     </ItemGroup>
 

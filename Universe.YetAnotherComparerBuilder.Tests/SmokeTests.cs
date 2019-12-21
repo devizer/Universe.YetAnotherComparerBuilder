@@ -37,7 +37,7 @@ namespace Universe.YetAnotherComparerBuilder.Tests
         {
 
             var persons = GetSourcePersons();
-            persons = persons.ReOrder().ToArray();
+            persons = persons.Order().ToArray();
             TestContext.WriteLine(string.Join(Environment.NewLine, (IEnumerable<PersonClass>)persons));
             
             Assert.AreEqual(42, persons[0].Age.Value);

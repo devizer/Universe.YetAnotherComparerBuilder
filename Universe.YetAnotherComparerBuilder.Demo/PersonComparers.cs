@@ -21,6 +21,9 @@ namespace Universe.YetAnotherComparerBuilder.Tests
                 .GetComparer();
         }
 
+
+        static bool TitleProjection(PersonClass p) => p.Title != null && p.Title.StartsWith("Dr", StringComparison.InvariantCultureIgnoreCase);
+        static bool AgeProjection(PersonClass p) => p.Age != null && p.Age.Value == 42;
         // 2nd implementation
         private sealed class PersonClassRelationalComparer : IComparer<PersonClass>
         {
@@ -30,9 +33,6 @@ namespace Universe.YetAnotherComparerBuilder.Tests
                 if (ReferenceEquals(null, y)) return 1;
                 if (ReferenceEquals(null, x)) return -1;
                     
-                bool TitleProjection(PersonClass p) => p.Title != null && p.Title.StartsWith("Dr", StringComparison.InvariantCultureIgnoreCase);  
-                bool AgeProjection(PersonClass p) => p.Age != null && p.Age.Value == 42;  
-
                 var isDrComparison = -TitleProjection(x).CompareTo(TitleProjection(y));
                 if (isDrComparison != 0) return isDrComparison;
 
@@ -57,15 +57,16 @@ namespace Universe.YetAnotherComparerBuilder.Tests
         public static IComparer<PersonClass> ManualPersonClassComparer { get; } = new PersonClassRelationalComparer();
         
         // 3rd implementation (linq)
-        public static IEnumerable<PersonClass> ReOrder(this IEnumerable<PersonClass> persons)
+        public static IEnumerable<PersonClass> Order(this IEnumerable<PersonClass> persons)
         {
             return persons
-                .OrderByDescending(p => p.Title != null && p.Title.StartsWith("Dr", StringComparison.InvariantCultureIgnoreCase))
+                .OrderByDescending(p => p.Title != null && p.Title.Equals("Dr", StringComparison.InvariantCultureIgnoreCase))
                 .ThenByDescending(p => p.Age != null && p.Age == 42)
                 .ThenBy(x => x.Name, StringComparer.InvariantCultureIgnoreCase)
                 .ThenBy(x => x.Title, StringComparer.InvariantCultureIgnoreCase)
                 .ThenBy(x => x.Age ?? int.MaxValue);
         }
+
 
     }
 }
