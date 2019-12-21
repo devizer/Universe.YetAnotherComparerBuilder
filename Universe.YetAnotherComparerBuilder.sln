@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Universe.YetAnotherComparerBuilder", "Universe.YetAnotherComparerBuilder\Universe.YetAnotherComparerBuilder.csproj", "{DF22CD7F-E130-4201-ABF6-44509862EBBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Universe.YetAnotherComparerBuilder.Tests", "Universe.YetAnotherComparerBuilder.Tests\Universe.YetAnotherComparerBuilder.Tests.csproj", "{646EBB40-55BD-4F9C-8ADD-E83E84197741}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF22CD7F-E130-4201-ABF6-44509862EBBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF22CD7F-E130-4201-ABF6-44509862EBBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF22CD7F-E130-4201-ABF6-44509862EBBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF22CD7F-E130-4201-ABF6-44509862EBBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{646EBB40-55BD-4F9C-8ADD-E83E84197741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{646EBB40-55BD-4F9C-8ADD-E83E84197741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{646EBB40-55BD-4F9C-8ADD-E83E84197741}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{646EBB40-55BD-4F9C-8ADD-E83E84197741}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
